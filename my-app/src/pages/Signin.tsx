@@ -1,17 +1,40 @@
 import React from 'react'
-import {Container, TextField, Button, Stack} from '@mui/material'
+import {useNavigate, Link} from 'react-router-dom'
+import jwt_decode from 'jwt-decode'
+import server from './../api/server'
+import './index.css'
+import AuthForm from '../componentes/AuthForm'
+
+interface TokenUser {
+  user: string;
+  profile: string;
+}
 
 const Signin = () => {
+  const navigate = useNavigate()
+
+  const handleLogin = async (user:string, password:string) => {
+
+    const response = await server.post('/security/login', {
+      user,
+      password,
+    })
+    const {accessToken} = response.data
+    localStorage.setItem('accessToken', accessToken)
+    const decoded = jwt_decode(accessToken) as TokenUser
+    localStorage.setItem("user", decoded.user)
+    localStorage.setItem("profile", decoded.profile)
+    navigate('/home')
+  }
+
   return (
     <div>
-      <Container maxWidth="sm">
-        <Stack spacing={4}>
-          <h1>Signin</h1>
-          <TextField variant="outlined" label="Usuário"></TextField>
-          <TextField variant="outlined" label="Senha"></TextField>
-          <Button variant="contained">Login</Button>
-        </Stack>
-      </Container>
+      <AuthForm
+      onSubmitForm = {handleLogin}
+      onSubmitButtontext = "Login"
+      onRouteLink = "register"
+      onRouteText = "Não tem uma conta ? Faça o cadastro"
+      />
     </div>
   )
 }
