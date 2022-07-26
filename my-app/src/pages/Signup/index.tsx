@@ -1,9 +1,21 @@
 import React from 'react'
 import AuthForm from '../../componentes/AuthForm'
+import server from '../../api/server'
+import {useNavigate} from 'react-router-dom'
 
 const Signup = () => {
-  const handleRegister = () => {
+  const navigate = useNavigate()
 
+  const handleRegister = async (user: string, password: string) => {
+    try{
+      await server.post('/security/register', {
+        user,
+        password
+      })
+      navigate('/')
+    } catch (err) {
+      alert('Não foi possivel criar o usuario')
+    }
   }
 
   return (

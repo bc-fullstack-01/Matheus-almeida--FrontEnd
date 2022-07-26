@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {Container, Stack, TextField, Button} from '@mui/material'
 import {Link} from 'react-router-dom'
 import logo from '../../assets/logo.svg'
+import './index.css'
 
 interface Props {
   onSubmitForm : any;
