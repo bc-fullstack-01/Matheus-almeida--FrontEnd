@@ -8,7 +8,7 @@ import {
   CardActions,
 } from "@mui/material";
 import CustomAvatar from "../CustomAvatar";
-import CustomActionIcon from "../CustomActionIcon";
+import CustomActionIcon from "../CustomActionIcons";
 import Post from "../../Models/Post";
 
 interface Props {
@@ -44,6 +44,7 @@ const PostCard = ({ post }: Props) => {
             commentCount={post.comments.length}
             likeCount={post.likes.length}
             likes={post.likes}
+            postId={post._id}
           />
         </div>
       </CardActions>
