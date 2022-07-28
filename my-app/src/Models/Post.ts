@@ -6,6 +6,10 @@ export default interface Post {
     name: string;
   };
   image: boolean;
-  comments: string[];
+  comments: string[] | {
+    _id:string;
+    description: string;
+    profile: string;
+  }[];
   likes: string[];
 }

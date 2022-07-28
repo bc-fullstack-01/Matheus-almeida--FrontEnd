@@ -13,24 +13,28 @@ import Post from "../../Models/Post";
 
 interface Props {
   post: Post;
+  handlePostClick: any;
 }
 
-const PostCard = ({ post }: Props) => {
+const PostCard = ({ post, handlePostClick }: Props) => {
+
   return (
     <Paper elevation={0} sx={{ marginX: 24 }}>
-      <CardHeader
-        avatar={<CustomAvatar profileName={post.profile.name} />}
-        title={post.title}
-      />
-      {post.image ? (
-        <CardMedia component="img" image={post.description} alt={post.title} />
-      ) : (
-        <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            {post.description}
-          </Typography>
-        </CardContent>
-      )}
+      <div onClick={() => handlePostClick(post._id)}>
+        <CardHeader
+          avatar={<CustomAvatar profileName={post.profile.name} />}
+          title={post.title}
+        />
+        {post.image ? (
+          <CardMedia component="img" image={post.description} alt={post.title} />
+        ) : (
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              {post.description}
+            </Typography>
+          </CardContent>
+        )}
+      </div>
       <CardActions>
         <div
           style={{
