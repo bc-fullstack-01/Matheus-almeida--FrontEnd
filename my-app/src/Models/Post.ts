@@ -1,3 +1,12 @@
+export interface Comment {
+  _id:string;
+  description: string;
+  profile: {
+    _id: string;
+    name: string;
+  };
+}
+
 export default interface Post {
   _id: string;
   title: string;
@@ -6,10 +15,6 @@ export default interface Post {
     name: string;
   };
   image: boolean;
-  comments: string[] | {
-    _id:string;
-    description: string;
-    profile: string;
-  }[];
+  comments: Comment[];
   likes: string[];
 }

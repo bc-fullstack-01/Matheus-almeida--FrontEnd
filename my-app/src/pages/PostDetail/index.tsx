@@ -1,16 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
-import { Divider, TextField, Paper, Button } from "@mui/material";
+import { Divider, TextField, Paper, Button, CardHeader } from "@mui/material";
 import server from '../../api/server'
 import PostCard from '../../componentes/PostCard'
 import CustomAppBar from '../../componentes/CustomAppBar'
 import Post from "../../Models/Post";
+import Comment from "../../Models/Post";
+import CustomAvatar from '../../componentes/CustomAvatar'
 
 const PostDetail = () => {
   const {postId} = useParams()
   const token = localStorage.getItem("accessToken")
   const [post, setPost] = useState<Post>();
   const [comment, setComment] = useState({value: "", error: ""})
+  const profileId = localStorage.getItem("profile")
+  const profileName = localStorage.getItem("user")
 
   useEffect(() => {
     const getPost = async () => {
@@ -36,7 +40,14 @@ const PostDetail = () => {
       { headers: {authorization: `Bearer ${token}`}
       })
       setComment({...comment, value: ""});
-      post?.comments.push(response.data)
+      const newComment = {
+        ...response.data,
+        profile: {
+          _id: profileId,
+          name: profileName,
+        },
+      }
+      post?.comments.push(newComment)
       setPost(post)
     } catch (err){
       console.log(err)
@@ -58,6 +69,15 @@ const PostDetail = () => {
           </div>
         </form>
       </Paper>
+      <Divider sx={{marginTop: 2}} />
+        {post?.comments && post?.comments.map((item) => (
+        <div key={item._id}>
+          <Paper elevation={0} sx={{marginX: 24, marginY: 2}}>
+            <CardHeader avatar={<CustomAvatar profileName={item.profile.name} />} title={item.description}/>
+          </Paper>
+          <Divider />
+        </div>
+        ))}
     </div>
   )
 }
